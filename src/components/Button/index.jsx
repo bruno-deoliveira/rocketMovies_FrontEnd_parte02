@@ -8,3 +8,4 @@ export function Button({ icon: Icon, title, loading = false, ...rest }) {
     </Container>
   );
 }
+
