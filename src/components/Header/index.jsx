@@ -1,6 +1,17 @@
+import {useAuth} from "../../hooks/auth"
 import { Container, Search, Profile, Logout } from "./style";
 
+import { api } from "../../services/api";
+
+import avatarPlaceholder from "../../assets/avatar_placeholder.svg";
+
 export function Header({ children }) {
+  const { signOut, user } = useAuth();
+
+  const avatarUrl = user.avatar
+    ? `${api.defaults.baseURL}/files/${user.avatar}`
+    : avatarPlaceholder;
+
   return (
     <Container>
       <h2>RocketMovies</h2>
@@ -9,14 +20,11 @@ export function Header({ children }) {
 
       <Profile to="/profile">
         <div>
-          <strong>Bruno Oliveira</strong>
-          <Logout> Sair </Logout>
+          <strong>{user.name}</strong>
+          <Logout onClick={signOut}> Sair </Logout>
         </div>
 
-        <img
-          src="https://github.com/bruno-deoliveira.png"
-          alt="Foto so usuário"
-        />
+        <img src={avatarUrl} alt={user.name} />
       </Profile>
     </Container>
   );

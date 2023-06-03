@@ -39,7 +39,7 @@ export const Profile = styled(Link)`
     display: flex;
     flex-direction: column;
     margin-left: 16px;
-    line-height: 24px;
+    line-height: 30px;
   }
 
   strong {
@@ -58,6 +58,6 @@ export const Logout = styled.button`
   border: none;
   background: none;
   padding-left: 90px;
-  font-size: 14px;
+  font-size: 17px;
   color: ${({ theme }) => theme.COLORS.GRAY_100};
 `;

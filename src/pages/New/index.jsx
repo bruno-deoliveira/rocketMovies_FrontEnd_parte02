@@ -32,7 +32,7 @@ export function New() {
           <div>
             <Input placeholder="Titulo" />
 
-            <Input
+            <Input //OBS RATING
               placeholder="Sua nota (de 0 a 5)"
               type="number"
               min="0"
@@ -41,6 +41,11 @@ export function New() {
           </div>
 
           <Textarea placeholder="Observações" />
+
+          <Section title="Links úteis">
+            <NoteItem value="https://rocketseat.com.br/" />
+            <NoteItem isNew placeholder="Novo link" />
+          </Section>
 
           <Section title="Marcadores">
             <div className="tags">
