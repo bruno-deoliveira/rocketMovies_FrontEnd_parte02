@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
+
 import { Container, NewMovie, Content } from "./style";
 
 import { FiPlus } from "react-icons/fi";
@@ -7,10 +11,32 @@ import { Notes } from "../../components/Notes";
 import { Input } from "../../components/Input";
 
 export function Home() {
+  const [notes, setNotes] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
+
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes?title=${search}`);
+      setNotes(response.data);
+    }
+
+    fetchNote();
+  }, [search]);
+
   return (
     <Container>
       <Header>
-        <Input placeholder="Pesquisar pelo título" />
+        <Input
+          placeholder="Pesquisar pelo título"
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </Header>
 
       <main>
@@ -24,31 +50,13 @@ export function Home() {
         </header>
 
         <Content>
-          <Notes
-            data={{
-              title: "Interestellar",
-              description:
-                "Pragas nas colheitas fizeram a civilização humana regredir para uma sociedade agrária em futuro de data desconhecida. Cooper, ex-piloto da NASA, tem uma fazenda com sua família. Murphy, a filha de dez anos de Cooper, acredita que seu quarto está assombrado por um fantasma que tenta se...",
-              tags: [
-                { id: "1", name: "drama" },
-                { id: "2", name: "Ficção Cientifica" },
-                { id: "3", name: "Familia" },
-              ],
-            }}
-          />
-
-          <Notes
-            data={{
-              title: "Interestellar",
-              description:
-                "Pragas nas colheitas fizeram a civilização humana regredir para uma sociedade agrária em futuro de data desconhecida. Cooper, ex-piloto da NASA, tem uma fazenda com sua família. Murphy, a filha de dez anos de Cooper, acredita que seu quarto está assombrado por um fantasma que tenta se...",
-              tags: [
-                { id: "1", name: "drama" },
-                { id: "2", name: "Ficção Cientifica" },
-                { id: "3", name: "Familia" },
-              ],
-            }}
-          />
+          {notes.map((note) => (
+            <Notes
+              key={String(note.id)}
+              data={note}
+              onClick={() => handleDetails(note.id)}
+            />
+          ))}
         </Content>
       </main>
     </Container>

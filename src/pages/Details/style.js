@@ -33,6 +33,12 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
 
+  .buttonText {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   > p {
     font-size: 16px;
     margin-top: 16px;
