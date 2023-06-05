@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import { Container, Form } from "./style";
 
-import { Link } from "react-router-dom";
-
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Textarea } from "../../components/Textarea";
@@ -15,6 +13,7 @@ import { Button } from "../../components/Button";
 
 import { FiArrowLeft } from "react-icons/fi";
 import { Rating } from "./../../components/Rating/index";
+import { ButtonText } from './../../components/ButtonText';
 
 export function New() {
   const [title, setTitle] = useState("");
@@ -28,6 +27,10 @@ export function New() {
   const [newTag, setNewTag] = useState("");
 
   const navigate = useNavigate();
+
+  function handleBack() {
+    navigate(-1);
+  }
 
   function handleAddLink() {
     setLinks(prevState => [...prevState, newLink]);
@@ -93,10 +96,12 @@ export function New() {
       <main>
         <Form>
           <header>
-            <Link to="/">
-              <FiArrowLeft />
-              Voltar
-            </Link>
+            <ButtonText
+              title="Voltar"
+              icon={FiArrowLeft}
+              onClick={handleBack}
+            />
+
             <h1> Novo filme </h1>
           </header>
 

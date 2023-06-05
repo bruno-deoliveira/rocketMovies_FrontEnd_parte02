@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/auth";
 
@@ -8,10 +9,10 @@ import { api } from "../../services/api";
 
 import { Container, Form, Avatar } from "./style";
 
-import { Link } from "react-router-dom";
-
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { ButtonText } from "./../../components/ButtonText";
+
 
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from "react-icons/fi";
 
@@ -31,16 +32,24 @@ export function Profile() {
   const [avatar, setAvatar] = useState(avatarUrl);
   const [avatarFile, setAvatarFile] = useState(null);
 
+  const navigate = useNavigate();
+
+  function handleBack() {
+    navigate(-1);
+  }
+
 
   async function handleUpdate(){
-    const user = {
+    const updated = {
       name,
       email,
       password: passwordNew,
       old_password: passwordOld,
     };
 
-    await updateProfile({ user, avatarFile });
+    const userUpdated = Object.assign(user, updated);
+
+    await updateProfile({ user: userUpdated, avatarFile });
   }
 
   function handleChangeAvatar(event) {
@@ -55,26 +64,24 @@ export function Profile() {
   return (
     <Container>
       <header>
-        <Link to="/">
-          <FiArrowLeft />
+        <button type="button" onClick={handleBack}>
+          <FiArrowLeft size={24} />
           Voltar
-        </Link>
+        </button>
       </header>
 
-      <Avatar>
-        <img
-          src={avatar}
-          alt="Foto do usuário"
-        />
-
-        <label htmlFor="avatar">
-          <FiCamera />
-
-          <input id="avatar" type="file" onChange={handleChangeAvatar} />
-        </label>
-      </Avatar>
-
       <Form>
+        <Avatar>
+          <img src={avatar} alt="Foto do usuário" />
+
+          <label htmlFor="avatar">
+            <FiCamera />
+
+            <input id="avatar" type="file" onChange={handleChangeAvatar} />
+          </label>
+        </Avatar>
+
+      
         <Input
           placeholder="Nome"
           type="text"

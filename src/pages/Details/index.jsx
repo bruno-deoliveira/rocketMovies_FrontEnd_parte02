@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
+import { useAuth } from "../../hooks/auth";
 
 import { Container, Links, Content, TitleRating, AuthorInfo } from "./style";
 
 import { FiClock, FiArrowLeft } from "react-icons/fi";
 
-import { format } from "date-fns";
-import ptBR from "date-fns/esm/locale/pt-BR/index.js";
+//import { format } from "date-fns";
+//import ptBR from "date-fns/esm/locale/pt-BR/index.js";
+
+import moment from "moment-timezone";
 
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
@@ -44,6 +47,16 @@ export function Details() {
 
     fetchNote();
   }, []);
+  
+  const { user } = useAuth();
+  const avatarUrl = user.avatar
+    ? `${api.defaults.baseURL}/files/${user.avatar}`
+    : avatarPlaceholder;
+
+  const formattedDate = moment
+    .utc(data.updated_at)
+    .tz("America/Sao_Paulo")
+    .format("DD/MM/YYYY HH:mm:ss");  
 
   return (
     <Container>
@@ -68,21 +81,18 @@ export function Details() {
 
             <TitleRating>
               <h1> {data.title} </h1>
-              <Rating rating="" />
+              <Rating rating={data.rating} />
             </TitleRating>
 
             <AuthorInfo>
               <div>
-                <img
-                  src="https://github.com/bruno-deoliveira.png"
-                  alt="Foto do usuário"
-                />
-                <span>Bruno Oliveira</span>
+                <img src={avatarUrl} alt={user.name} />
+                <span>{user.name}</span>
               </div>
 
               <div>
                 <FiClock />
-                <span>{format(new Date(), "dd'/'MM'/'yy 'às' HH':'mm")}</span>
+                <span>{formattedDate}</span>
               </div>
             </AuthorInfo>
 

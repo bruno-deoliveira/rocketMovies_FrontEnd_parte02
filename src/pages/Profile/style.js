@@ -14,10 +14,13 @@ export const Container = styled.div`
 
     padding: 0 124px;
 
-    > a {
+    > button {
       display: flex;
+      align-items: center;
       color: ${({ theme }) => theme.COLORS.PINK};
-      gap: 8px;
+      background: none;
+      border: none;
+      font-size: 20px;
     }
 
     svg {
