@@ -10,7 +10,7 @@ export function Header({ children }) {
   const navigation = useNavigate();
 
   function handleSignOut() {
-    navigation(-1);
+    navigation("/");
     signOut();
   }
 
